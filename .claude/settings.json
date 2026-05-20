@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      {
+        "prompt": "dangerously-skip-permissions",
+        "tool": "Bash"
+      }
+    ]
+  }
+}

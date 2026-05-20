@@ -1,0 +1,3 @@
+To generate favicon.ico, go to https://favicon.io/emoji-favicons/
+Use the 👨‍💻 or 🎮 emoji and download as ICO format.
+Or use https://realfavicongenerator.net/
