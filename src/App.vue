@@ -21,6 +21,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { profile } from './data/profile.js'
 import PixelHeader from './components/PixelHeader.vue'
 import PixelNav from './components/PixelNav.vue'
 import PixelAbout from './components/PixelAbout.vue'
