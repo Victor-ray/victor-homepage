@@ -1,26 +1,50 @@
 <template>
-  <section class="section about">
-    <h2 class="section-title">关于我</h2>
+  <section class="section">
+    <div class="about-grid">
+      <div class="card card-main">
+        <div class="card-label">About Me</div>
+        <h2 class="card-title">探索技术与创意的交汇点</h2>
 
-    <div class="pixel-box">
-      <p>🎓 {{ profile.school }} {{ profile.major }}</p>
-      <p>💼 {{ profile.internship }}</p>
-      <p>🌟 <strong>{{ profile.personality }}</strong>，具有强烈的团队协作精神</p>
-      <p>🎯 {{ profile.goal }}</p>
-    </div>
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-label">Education</span>
+            <span class="info-value">{{ profile.school }} · {{ profile.major }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Experience</span>
+            <span class="info-value">{{ profile.internship }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Personality</span>
+            <span class="info-value">{{ profile.personality }} — 具有强烈的团队协作精神</span>
+          </div>
+        </div>
 
-    <div v-for="(items, category) in techStackDisplay" :key="category" class="tech-category">
-      <h3 class="tech-title">{{ category }}</h3>
-      <div class="pixel-skill">
-        <span v-for="item in items" :key="item" class="skill-tag">{{ item }}</span>
+        <p class="bio">{{ profile.goal }}</p>
+      </div>
+
+      <div class="card card-goal">
+        <div class="card-label">Current Focus</div>
+        <ul class="focus-list">
+          <li v-for="item in profile.currently" :key="item" class="focus-item">
+            <span class="focus-dot"></span>
+            {{ item }}
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="pixel-box currently">
-      <h3 class="tech-title">⚡ 学习与日常</h3>
-      <ul>
-        <li v-for="item in profile.currently" :key="item">{{ item }}</li>
-      </ul>
+    <div class="tech-section">
+      <h3 class="section-heading">Technical Skills</h3>
+
+      <div class="tech-grid">
+        <div v-for="(items, category) in techStackDisplay" :key="category" class="tech-card">
+          <h4 class="tech-category">{{ category }}</h4>
+          <div class="tech-tags">
+            <span v-for="item in items" :key="item" class="tech-tag">{{ item }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -45,53 +69,162 @@ const techStackDisplay = {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.section-title {
-  font-size: 18px;
-  color: #ff00ff;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 0 #0f0f23;
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--shadow-soft);
+}
+
+.card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+  line-height: 1.3;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.bio {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.card-goal {
+  display: flex;
+  flex-direction: column;
+}
+
+.focus-list {
+  list-style: none;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.focus-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.focus-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-secondary);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tech-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.2s;
+}
+
+.tech-card:hover {
+  box-shadow: var(--shadow-medium);
 }
 
 .tech-category {
-  margin-bottom: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.tech-title {
-  font-size: 12px;
-  color: #00ffff;
-  margin-bottom: 10px;
-}
-
-.pixel-skill {
+.tech-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
-.skill-tag {
-  font-size: 10px;
-  padding: 8px 12px;
-  background: #ff00ff;
-  color: #0f0f23;
-  box-shadow: 2px 2px 0 #0f0f23;
+.tech-tag {
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
-.currently ul {
-  list-style: none;
-  padding: 0;
-}
+@media (max-width: 800px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
 
-.currently li {
-  font-size: 10px;
-  margin-bottom: 8px;
-  padding-left: 20px;
-  position: relative;
-}
-
-.currently li::before {
-  content: '►';
-  position: absolute;
-  left: 0;
-  color: #39ff14;
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

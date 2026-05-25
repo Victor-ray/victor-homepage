@@ -1,23 +1,20 @@
 <template>
   <div class="app">
-    <div class="scanlines"></div>
-    <div class="cursor-pixel"></div>
-
     <PixelHeader />
 
     <PixelNav :currentTab="currentTab" @change="changeTab" />
 
     <main class="content">
-      <Transition name="tab">
+      <Transition name="fade-slide">
         <PixelAbout v-if="currentTab === 'about'" key="about" />
         <PixelProjects v-else-if="currentTab === 'projects'" key="projects" />
         <PixelContact v-else-if="currentTab === 'contact'" key="contact" />
       </Transition>
     </main>
 
-    <footer class="pixel-footer">
-      <p>Made with 💖 in pixel world</p>
-      <p class="visitor-count">Visitors: <span id="counter">0000</span></p>
+    <footer class="footer">
+      <p class="motto">"{{ profile.motto }}"</p>
+      <p class="copyright">© 2024 {{ profile.name }} · Made with passion</p>
     </footer>
   </div>
 </template>
@@ -38,73 +35,88 @@ const changeTab = (tab) => {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg-primary: #faf9f7;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f3f1ed;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5c5c5c;
+  --text-muted: #8a8a8a;
+  --accent-primary: #e07850;
+  --accent-secondary: #2d5a4a;
+  --border-color: #e8e5df;
+  --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .app {
-  position: relative;
-}
-
-.scanlines {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 1000;
-}
-
-.cursor-pixel {
-  position: fixed;
-  width: 15px;
-  height: 15px;
-  background: #39ff14;
-  pointer-events: none;
-  z-index: 999;
-  mix-blend-mode: difference;
-  transition: transform 0.1s ease-out;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
-  margin-top: 30px;
-  min-height: 400px;
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  width: 100%;
 }
 
-.pixel-footer {
+.footer {
   text-align: center;
-  margin-top: 50px;
-  padding: 20px;
-  border-top: 4px solid #39ff14;
+  padding: 60px 24px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
 }
 
-.pixel-footer p {
-  font-size: 10px;
-  margin-bottom: 10px;
+.footer .motto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
 }
 
-.visitor-count {
-  color: #ff00ff;
+.footer .copyright {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
-.tab-enter-active,
-.tab-leave-active {
-  transition: all 0.2s;
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s ease;
 }
 
-.tab-enter-from {
+.fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateY(15px);
 }
 
-.tab-leave-to {
+.fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateY(-10px);
 }
 </style>

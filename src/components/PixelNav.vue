@@ -1,17 +1,22 @@
 <template>
-  <nav class="pixel-nav">
-    <button
-      v-for="tab in tabs"
-      :key="tab.id"
-      :class="['pixel-btn', { active: currentTab === tab.id }]"
-      @click="$emit('change', tab.id)"
-    >
-      {{ tab.label }}
-    </button>
+  <nav class="nav">
+    <div class="nav-inner">
+      <button
+        v-for="tab in tabs"
+        :key="tab.id"
+        :class="['nav-btn', { active: currentTab === tab.id }]"
+        @click="$emit('change', tab.id)"
+      >
+        <component :is="tab.icon" class="nav-icon" />
+        {{ tab.label }}
+      </button>
+    </div>
   </nav>
 </template>
 
 <script setup>
+import { h } from 'vue'
+
 defineProps({
   currentTab: {
     type: String,
@@ -21,47 +26,94 @@ defineProps({
 
 defineEmits(['change'])
 
+const AboutIcon = () => h('svg', {
+  width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8
+}, [
+  h('circle', { cx: 12, cy: 8, r: 4 }),
+  h('path', { d: 'M4 20c0-4 4-6 8-6s8 2 8 6' })
+])
+
+const ProjectsIcon = () => h('svg', {
+  width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8
+}, [
+  h('rect', { x: 3, y: 3, width: 7, height: 7, rx: 1 }),
+  h('rect', { x: 14, y: 3, width: 7, height: 7, rx: 1 }),
+  h('rect', { x: 3, y: 14, width: 7, height: 7, rx: 1 }),
+  h('rect', { x: 14, y: 14, width: 7, height: 7, rx: 1 })
+])
+
+const ContactIcon = () => h('svg', {
+  width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8
+}, [
+  h('path', { d: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z' })
+])
+
 const tabs = [
-  { id: 'about', label: 'About' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' }
+  { id: 'about', label: 'About', icon: AboutIcon },
+  { id: 'projects', label: 'Projects', icon: ProjectsIcon },
+  { id: 'contact', label: 'Contact', icon: ContactIcon }
 ]
 </script>
 
 <style scoped>
-.pixel-nav {
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 249, 247, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 30px 0;
+  gap: 8px;
 }
 
-.pixel-btn {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  padding: 15px 20px;
-  background: #1a1a2e;
-  color: #39ff14;
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: none;
   border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
   cursor: pointer;
-  box-shadow: 4px 4px 0 #39ff14;
-  transition: all 0.1s;
+  position: relative;
+  transition: color 0.2s;
 }
 
-.pixel-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #39ff14;
-  text-shadow: 0 0 10px #39ff14;
-  animation: flicker 0.5s infinite;
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: var(--accent-primary);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
 }
 
-.pixel-btn.active {
-  background: #39ff14;
-  color: #0f0f23;
+.nav-btn:hover {
+  color: var(--text-primary);
 }
 
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
+.nav-btn.active {
+  color: var(--accent-primary);
+}
+
+.nav-btn.active::after {
+  transform: scaleX(1);
+}
+
+.nav-icon {
+  flex-shrink: 0;
 }
 </style>
